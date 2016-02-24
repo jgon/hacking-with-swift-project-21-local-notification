@@ -27,6 +27,7 @@ class ViewController: UIViewController {
 
     @IBAction func scheduleLocalNotification(sender: UIButton) {
         
+        // Checking whether we have the permission to schedule local notifications.
         guard let settings = UIApplication.sharedApplication().currentUserNotificationSettings() else { return }
         
         if settings.types == .None {
