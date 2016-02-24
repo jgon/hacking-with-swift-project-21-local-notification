@@ -20,6 +20,30 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func registerLocalNotification(sender: UIButton) {
+        let userNotificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
+        UIApplication.sharedApplication().registerUserNotificationSettings(userNotificationSettings)
+    }
 
+    @IBAction func scheduleLocalNotification(sender: UIButton) {
+        
+        guard let settings = UIApplication.sharedApplication().currentUserNotificationSettings() else { return }
+        
+        if settings.types == .None {
+            let alertController = UIAlertController(title: "Can't schedule", message: "We don't have the permission to schedule.", preferredStyle: .Alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+            presentViewController(alertController, animated: true, completion: nil)
+            return
+        }
+        
+        let notification = UILocalNotification()
+        notification.fireDate = NSDate(timeIntervalSinceNow: 5)
+        notification.alertBody = "Swipe to unlock"
+        notification.alertAction = "be awsome!"
+        notification.soundName = UILocalNotificationDefaultSoundName
+        notification.userInfo = ["CustomField1": "w00t"]
+        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+    }
+    
 }
 
